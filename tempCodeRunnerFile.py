@@ -1,1 +1,2 @@
-from flask import Flask, render_template, request, flash
+class User(db.Model):
+   __

@@ -5,12 +5,7 @@
     <h1 style="text-align: center;">Contact Form</h1>
     {% with messages = get_flashed_messages() %} {% if messages %}
     <div class="flash">{{ message }}</div>
-    <style>
-        flash {
-            background-color: #FBB0B0;
-            padding: 10px;
-            width: 400px;
-        }
+
     </style>
     <ul>
         {% for message in messages %}
@@ -24,90 +19,90 @@
     {% endfor %}
 
     <form action=" " method="post" <fieldset>
+        <form action="{{ url_for('contact') }}" method=post>
+            {{ form.hidden_tag() }}
 
-        {{ form.hidden_tag() }}
+            <div style=font-size:25px; font-weight:bold; margin-left:150px;>
+                {{ form.name.label }} <br> {{ form.name }}
+                <br> {{ form.Age.label }}<br> {{ form.Age }}
+                <br> {{ form.Gender.label }}<br> {{ form.Gender}}
+                <br> {{ form.email.label }}<br> {{ form.email }}
+                <br> {{ form.mobno.label }}<br> {{ form.mobno }}
+                <br> {{ form.language.label }}<br> {{ form.language }}
+                <style>
+                    form {
+                        width: 100%;
+                        padding: 12px 20px;
+                        margin: 8px 0;
+                        display: inline-block;
+                        border: 1px solid #ccc;
+                        border-radius: 4px;
+                        box-sizing: border-box;
+                    }
+                </style>
 
-        <div style=font-size:25px; font-weight:bold; margin-left:150px;>
-            {{ form.name.label }} <br> {{ form.name }}
-            <br> {{ form.Age.label }}<br> {{ form.Age }}
-            <br> {{ form.Gender.label }}<br> {{ form.Gender}}
-            <br> {{ form.email.label }}<br> {{ form.email }}
-            <br> {{ form.mobno.label }}<br> {{ form.mobno }}
-            <br> {{ form.language.label }}<br> {{ form.language }}
-            <style>
-                form {
-                    width: 100%;
-                    padding: 12px 20px;
-                    margin: 8px 0;
-                    display: inline-block;
-                    border: 1px solid #ccc;
-                    border-radius: 4px;
-                    box-sizing: border-box;
-                }
-            </style>
+                <br> {{ form.query.label }} <br> {{ form.query }}
+                <style>
+                    form textarea#query {
+                        width: 500px;
+                        height: 100px;
+                        background-color: #fafafa;
+                        -webkit-border-radius: 3px;
+                        -moz-border-radius: 3px;
+                        border-radius: 3px;
+                        border: 1px solid #cccccc;
+                        margin-bottom: 10px;
+                        padding: 5px;
+                        font-size: 1.1em;
+                        width: 100%;
+                        padding: 12px 20px;
+                        margin: 8px 0;
+                        display: inline-block;
+                        border: 1px solid #ccc;
+                        border-radius: 4px;
+                        box-sizing: border-box;
+                    }
+                </style>
 
-            <br> {{ form.query.label }} <br> {{ form.query }}
-            <style>
-                form textarea#query {
-                    width: 500px;
-                    height: 100px;
-                    background-color: #fafafa;
-                    -webkit-border-radius: 3px;
-                    -moz-border-radius: 3px;
-                    border-radius: 3px;
-                    border: 1px solid #cccccc;
-                    margin-bottom: 10px;
-                    padding: 5px;
-                    font-size: 1.1em;
-                    width: 100%;
-                    padding: 12px 20px;
-                    margin: 8px 0;
-                    display: inline-block;
-                    border: 1px solid #ccc;
-                    border-radius: 4px;
-                    box-sizing: border-box;
-                }
-            </style>
+                <br> {{ form.submit }}
+            </div>
 
-            <br> {{ form.submit }}
-        </div>
+            </fieldset>
+        </form>
 
-        </fieldset>
-    </form>
-
-    <style>
-        input[type=text],
-        select {
-            width: 100%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        
-        input[type=submit] {
-            width: 100%;
-            background-color: powderblue;
-            color: white;
-            padding: 14px 20px;
-            margin: 8px 0;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        
-        input[type=submit]:hover {
-            background-color: #4CAF50;
-        }
-        
-        div {
-            border-radius: 5px;
-            background-color: #f2f2f2;
-            padding: 20px;
-        }
-    </style>
+        <style>
+            input[type=text],
+            select {
+                width: 100%;
+                padding: 12px 20px;
+                margin: 8px 0;
+                display: inline-block;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+            }
+            
+            input[type=submit] {
+                width: 100%;
+                background-color: powderblue;
+                color: white;
+                padding: 14px 20px;
+                margin: 8px 0;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            
+            input[type=submit]:hover {
+                background-color: #4CAF50;
+            }
+            
+            div {
+                border-radius: 5px;
+                background-color: #f2f2f2;
+                padding: 20px;
+            }
+        </style>
 </body>
 
 </html>

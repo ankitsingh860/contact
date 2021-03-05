@@ -1,6 +1,7 @@
-import threading
-from flask import Flask, render_template, request, flash, session
+from flask import Flask, config, render_template, request, flash, session , redirect
+from flask.helpers import url_for
 from flask_wtf import FlaskForm
+from sqlalchemy.sql.operators import exists
 from wtforms import StringField, TextAreaField, SubmitField, RadioField, SelectField
 from wtforms import validators
 from wtforms.validators import DataRequired
@@ -19,8 +20,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.config['MAIL_SERVER']='smtp.googlemail.com'
 app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
 
@@ -52,9 +52,6 @@ class User(db.Model):
    def __repr__(self):
        return '< User %r >' % self.username
 
-
-
-
 class ContactForm(FlaskForm):
     name = StringField("Full Name",validators = [DataRequired()])
     Age = IntegerField("Age",validators = [DataRequired()])
@@ -69,27 +66,22 @@ class ContactForm(FlaskForm):
 def contact():
     form = ContactForm()
     if form.validate_on_submit():
+        user = User.query.filter_by(username=form.data).first()
+        if user is None:
+            user =  User(username=form.name.data)
+            db.session.add(user)
+            db.session.commit()
+            session['exists'] = False
+            if app.config['ADMIN']:
+               send_mail(app.config['ADMIN'],'New User', 'mail/new_user',user=user)
+        else:
+            session['exists'] = True
         session['name'] = form.name.data
         form.name.data = ''
-        session['Age'] = form.Age.data
-        form.Age.data = ''
-        session['Gender'] = form.Gender.data
-        form.Gender.data = ''
-        session['email'] = form.email.data
-        form.email.data = ''
-        session['mobno'] = form.mobno.data
-        form.mobno.data=''
-        session['language'] = form.language.data
-        form.language.data = ''
-        session['query'] = form.query.data
-        form.query.data = ''
-
-    if app.config['ADMIN']:
-            send_mail(app.config['ADMIN'], 'New Query Posted', 'mail/new_query',Name=session['name'],Age=session['Age'],Gender=session['Gender'],Email=session['email'],Mobno=session['mobno'],Language=session['language'],Query=session['query'])
-            flash('Your Query Is Submitted And Your Mail Has Been Sent To Admin')
-           
-            return render_template('contact.html',form=form, Name=session('name'),Age=session('Age'),Gender=session('Gender'),Email=session('email'),Mobno=session('mobno'),Language=session('language'),Query=session('query'))
-
+        flash('Your Answers are Saved Thanks For Submitting')
+        return redirect(url_for('contact'))
+    return render_template('contact.html',form=form,name=session.get('name'),exists=session.get('exists'))
+   
 
 @app.errorhandler(404)
 def page_not_found(e):
