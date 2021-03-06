@@ -79,7 +79,8 @@ def contact():
         session['name'] = form.name.data
         form.name.data = ''
         flash('Your Answers are Saved Thanks For Submitting')
-        return redirect(url_for('contact'))
+        return render_template("success.html",form=form)
+
     return render_template('contact.html',form=form,name=session.get('name'),exists=session.get('exists'))
    
 
