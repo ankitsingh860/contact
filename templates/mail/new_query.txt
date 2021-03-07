@@ -1,0 +1,8 @@
+New Query Posted
+Name : {{ name }}
+Age : {{ Age }}
+Gender : {{ Gender }}
+Email : {{ email }}
+Mobno : {{ mobno}}
+Language : {{ language }}
+Query : {{ query }}
